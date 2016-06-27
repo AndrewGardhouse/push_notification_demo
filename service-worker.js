@@ -3,8 +3,8 @@
 self.addEventListener('push', function(event) {
   console.log('Recieved a push message', event);
 
-  var title = 'Hurrah, a message!',
-       body = 'We have recieved a push message',
+  var title = 'Invoke Media',
+       body = 'You have recieved a push message',
        icon = '/icon.jpeg',
         tag = 'push-notification-demo-tag';
 
