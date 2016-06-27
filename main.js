@@ -1,4 +1,16 @@
-var isPushEnabled = false;
+var isPushEnabled = false,
+    gcmAPIKey = "AIzaSyA3Km61lQsPvkwP9OlH16wxoW5BqHkY-eI";
+
+function showCurlCommand(subscription) {
+  var codeSnippet = document.getElementById('curlCommand');
+  var subscriptionId = getSubscriptionId(subscription);
+
+  codeSnippet.innerHTML = 'curl --header "Authorization: key=' + gcmAPIKey + '" --header "Content-Type: application/json"  https://android.googleapis.com/gcm/send -d "{\\\"registration_ids\\\":[\\\"' + subscriptionId + '\\\"]}"'
+}
+
+function getSubscriptionId(subscription) {
+  return subscription.endpoint.split('/').pop();
+}
 
 function initializeState() {
   // Checks if notifications are supported in the service worker
@@ -45,7 +57,7 @@ function initializeState() {
         // sendSubscriptionToServer(subscription);
 
         console.log(subscription)
-
+        showCurlCommand(subscription)
         // Sets your switch to show they have subscribed for push messages
         pushSwitchSpan.textContent = 'Disable Push Messages';
         pushSwitchLabel.classList.add('is-checked');
@@ -81,6 +93,8 @@ function subscribe() {
         console.log('The user has successfully subscribed to push messages');
         // TODO: Send the subscription.endpoint to your server and save it to send a push message at a later date
         // return sendSubscriptionToServer(subscription);
+
+        showCurlCommand(subscription)
       })
       .catch(function(error) {
         if (Notification.permission === 'denied') {
@@ -121,9 +135,6 @@ function unsubscribe() {
         return;
       }
 
-       var subscriptionId = pushSubscription.subscriptionId;
-       console.log(pushSubscription);
-
        // TODO: Make a request to your server to remove
        // the subscriptionId from your data store so you
        // don't attempt to send them push messages anymore
@@ -135,6 +146,9 @@ function unsubscribe() {
          pushSwitch.disabled = false;
          pushSwitchLabel.classList.remove('is-checked', 'is-disabled');
          pushSwitchSpan.textContent = 'Enable Push Messages';
+
+         var codeSnippet = document.getElementById('curlCommand');
+         codeSnippet.innerHTML = "";
        })
        .catch(function(error) {
          // We failed to unsubscribe, this can lead to
