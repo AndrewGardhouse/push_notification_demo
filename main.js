@@ -56,12 +56,38 @@ function initializeState() {
         // Keeps the server in sync with the latest subscriptionId
         // sendSubscriptionToServer(subscription);
 
-        console.log(subscription)
         showCurlCommand(subscription)
+
+        var notificationDiv = document.getElementById('pushNotifications')
+        notificationDiv.classList.remove('not-subcribed')
         // Sets your switch to show they have subscribed for push messages
         pushSwitchSpan.textContent = 'Disable Push Messages';
         pushSwitchLabel.classList.add('is-checked');
-        // pushSwitch.checked = true;
+        pushSwitch.checked = true;
+
+        var ajaxButton = document.getElementById('sendPushAjax');
+
+        ajaxButton.addEventListener('click', function() {
+          var subscriptionId = getSubscriptionId(subscription);
+
+          var data = {
+            "to": subscriptionId
+          }
+
+          $.ajax({
+            url: "https://android.googleapis.com/gcm/send",
+            type: "POST",
+            headers: {
+              'Authorization' : 'key=' + gcmAPIKey,
+              'Content-type': 'application/json'
+            },
+            data: JSON.stringify(data)
+          }).then(function (data) {
+            console.log("Success:", data);
+          }).fail(function(error) {
+            console.log("Error", error)
+          })
+        });
 
         isPushEnabled = true;
       })
@@ -95,6 +121,34 @@ function subscribe() {
         // return sendSubscriptionToServer(subscription);
 
         showCurlCommand(subscription)
+
+        var notificationDiv = document.getElementById('pushNotifications')
+        notificationDiv.classList.remove('not-subcribed')
+
+        var ajaxButton = document.getElementById('sendPushAjax');
+
+        ajaxButton.addEventListener('click', function() {
+          var subscriptionId = getSubscriptionId(subscription);
+
+          var data = {
+            "to": subscriptionId
+          }
+
+          $.ajax({
+            url: "https://android.googleapis.com/gcm/send",
+            type: "POST",
+            headers: {
+              'Authorization' : 'key=' + gcmAPIKey,
+              'Content-type': 'application/json'
+            },
+            data: JSON.stringify(data)
+          }).then(function (data) {
+            console.log("Success:", data);
+          }).fail(function(error) {
+            console.log("Error", error)
+          })
+        });
+
       })
       .catch(function(error) {
         if (Notification.permission === 'denied') {
@@ -147,8 +201,9 @@ function unsubscribe() {
          pushSwitchLabel.classList.remove('is-checked', 'is-disabled');
          pushSwitchSpan.textContent = 'Enable Push Messages';
 
-         var codeSnippet = document.getElementById('curlCommand');
-         codeSnippet.innerHTML = "";
+         var notificationDiv = document.getElementById('pushNotifications')
+         notificationDiv.classList.add('not-subcribed')
+
        })
        .catch(function(error) {
          // We failed to unsubscribe, this can lead to

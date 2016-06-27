@@ -20,12 +20,22 @@ h3{
   display: inline-block;
 }
 
-#curlCommand {
-  background-color: gainsboro;
-  width: 65%;
-  text-align: initial;
-  word-break: break-all;
-  display: block;
-  margin: 15px auto;
-  padding: 20px;
+div#pushNotifications {
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 1s, opacity 1s linear;
+  &.not-subcribed {
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  #curlCommand {
+    background-color: gainsboro;
+    width: 65%;
+    text-align: initial;
+    word-break: break-all;
+    display: block;
+    margin: 15px auto;
+    padding: 20px;
+  }
 }
