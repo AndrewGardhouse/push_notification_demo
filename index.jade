@@ -12,3 +12,26 @@ div#pushNotifications.not-subcribed.notification-details
   button#sendPushAjax.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect Send Push Notification
   h4 Or Copy And Paste The cURL Command Below Into Your Terminal
   code#curlCommand
+
+div.custom-notification
+  h4 Or Custom Notification From The Browser (Without The Push API)
+  form
+    div.mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+      input.mdl-textfield__input#title(type="text")
+      label.mdl-textfield__label(for="title") Title
+
+    br
+
+    div.mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+      input.mdl-textfield__input#body(type="text")
+      label.mdl-textfield__label(for="body") Body
+
+    br
+
+    div.mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+      input.mdl-textfield__input#image(type="text")
+      label.mdl-textfield__label(for="image") Image URL
+
+    br
+
+    input.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect(type="submit")

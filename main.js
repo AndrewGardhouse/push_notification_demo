@@ -5,7 +5,7 @@ function showCurlCommand(subscription) {
   var codeSnippet = document.getElementById('curlCommand');
   var subscriptionId = getSubscriptionId(subscription);
 
-  codeSnippet.innerHTML = 'curl --header "Authorization: key=' + gcmAPIKey + '" --header "Content-Type: application/json"  https://android.googleapis.com/gcm/send -d "{\\\"registration_ids\\\":[\\\"' + subscriptionId + '\\\"]}"'
+  codeSnippet.innerHTML = 'curl --request POST --header "Authorization: key=' + gcmAPIKey + '" --header "Content-Type: application/json"  https://android.googleapis.com/gcm/send -d "{\\\"registration_ids\\\":[\\\"' + subscriptionId + '\\\"]}"'
 }
 
 function getSubscriptionId(subscription) {
@@ -241,3 +241,19 @@ window.addEventListener('load', function() {
     console.warn('Service workers are not supported in this browser.')
   }
 });
+
+var $customNotificationForm = $('.custom-notification').find('form');
+
+$customNotificationForm.on('submit', function(e) {
+  var title = $('#title').val();
+  var body  = $('#body').val();
+  var image = $('#image').val();
+
+  new Notification(title, {
+    body: body,
+    icon: image
+  })
+
+  this.reset()
+  e.preventDefault();
+})
