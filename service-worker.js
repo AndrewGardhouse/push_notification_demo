@@ -13,7 +13,7 @@ self.addEventListener('push', function(event) {
     self.registration.showNotification(title, {
       body: body,
       icon: icon,
-      tag: tag
+      // tag: tag
     })
   );
 });
